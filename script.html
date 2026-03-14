@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Recomenflix</title>
+<style>
+body {
+    background-color: #141414;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+header {
+    background-color: black;
+    padding: 15px;
+    font-size: 25px;
+    text-align: center;
+}
+header button {
+    margin-left: 15px;
+    padding: 8px 12px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+header button:hover { background-color: #f6121d; }
+
+h2.categoria {
+    margin-left: 20px;
+}
+
+#buscador {
+    padding: 8px;
+    width: 300px;
+    border-radius: 5px;
+    border: none;
+    margin: 20px auto;
+    display: block;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    background-color: #222;
+    width: 200px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-align: center;
+    overflow: hidden;
+}
+.card:hover { transform: scale(1.05); }
+.card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 5px 5px 0 0;
+}
+.card h3 { margin: 10px 0; }
+
+.pantalla { display: none; padding: 20px; }
+.detalle iframe { width: 560px; height: 315px; margin-bottom: 15px; }
+
+.cast {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.actor {
+    text-align: center;
+}
+.actor img {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+button.agregar {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+button.agregar:hover { background-color: #f6121d; }
+
+#miLista { background-color: #222; padding: 15px; border-radius: 8px; }
+#miLista li button {
+    margin-left: 10px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+#miLista li button:hover { background-color: #666; }
+
+</style>
+</head>
+<body>
+
+<header>
+  Recomenflix
+  <button onclick="mostrarLista()">Mi Lista</button>
+</header>
+
+<!-- Buscador -->
+<input type="text" id="buscador" placeholder="Buscar película o serie..." onkeyup="filtrarCards()">
+
+<!-- Pantalla inicial: Películas y Series -->
+<div id="home" class="pantalla" style="display:block;">
+
+  <!-- Películas -->
+  <h2 class="categoria">Películas</h2>
+  <div class="container">
+    <div class="card" onclick="mostrar('pelicula1')">
+      <img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Everything_Everywhere_All_At_Once_2022_poster.jpg" alt="Pelicula 1">
+      <h3>Everything Everywhere</h3>
+    </div>
+    <!-- Agregar más películas si querés -->
+  </div>
+
+  <!-- Series -->
+  <h2 class="categoria">Series</h2>
+  <div class="container">
+    <div class="card" onclick="mostrar('stranger')">
+      <img src="https://upload.wikimedia.org/wikipedia/en/3/38/Stranger_Things_Season_4_Poster.jpg" alt="Stranger Things">
+      <h3>Stranger Things</h3>
+    </div>
+    <div class="card" onclick="mostrar('outer')">
+      <img src="https://m.media-amazon.com/images/M/MV5BY2FmYmJiYTQtYmJhZC00ZTIxLTk3OTAtNzc3NDk0NGMxYTdmXkEyXkFqcGc@._V1_.jpg" alt="Outer Banks">
+      <h3>Outer Banks</h3>
+    </div>
+    <!-- Agregar más series -->
+  </div>
+</div>
+
+<!-- Secciones exclusivas -->
+<div id="pelicula1" class="pantalla">
+  <button onclick="volverHome()">← Volver</button>
+  <h2>Everything Everywhere</h2>
+  <iframe src="https://www.youtube.com/embed/wNIcUr20jSk" frameborder="0" allowfullscreen></iframe>
+  <p>Una mujer descubre que puede acceder a versiones de sí misma en universos paralelos y salva el multiverso.</p>
+  <h3>Cast</h3>
+  <div class="cast">
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Michelle_Yeoh_2022.jpg"><p>Michelle Yeoh</p></div>
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Ke_Huy_Quan_%282022%29.jpg"><p>Ke Huy Quan</p></div>
+  </div>
+  <button class="agregar" onclick="agregarLista('Everything Everywhere')">+ Agregar a mi lista</button>
+</div>
+
+<div id="stranger" class="pantalla">
+  <button onclick="volverHome()">← Volver</button>
+  <h2>Stranger Things</h2>
+  <video width="560" height="315" controls>
+    <source src="st_trailer.mp4" type="video/mp4">
+    Tu navegador no soporta video.
+  </video>
+  <p>Después de la desaparición de un niño, un pueblo se enfrenta a misterios, experimentos secretos y fuerzas sobrenaturales.</p>
+  <h3>Cast</h3>
+  <div class="cast">
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3f/Millie_Bobby_Brown_by_Gage_Skidmore_2.jpg"><p>Millie Bobby Brown</p></div>
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Finn_Wolfhard_by_Gage_Skidmore.jpg"><p>Finn Wolfhard</p></div>
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Noah_Schnapp_%283%29.jpg"><p>Noah Schnapp</p></div>
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Sadie_Sink_by_Gage_Skidmore.jpg"><p>Sadie Sink</p></div>
+  </div>
+  <button class="agregar" onclick="agregarLista('Stranger Things')">+ Agregar a mi lista</button>
+</div>
+
+<div id="outer" class="pantalla">
+  <button onclick="volverHome()">← Volver</button>
+  <h2>Outer Banks</h2>
+  <iframe src="https://www.youtube.com/embed/D-IaOYiYHaM" frameborder="0" allowfullscreen></iframe>
+  <p>Un tesoro perdido y secretos que John B y su grupo arriesgan todo por encontrar.</p>
+  <h3>Cast</h3>
+  <div class="cast">
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/2/25/Chase_Stokes_by_Gage_Skidmore.jpg"><p>Chase Stokes</p></div>
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/6/66/Madelyn_Cline_by_Gage_Skidmore.jpg"><p>Madelyn Cline</p></div>
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Madison_Bailey_2021.jpg"><p>Madison Bailey</p></div>
+    <div class="actor"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Jonathan_Daviss_2021.jpg"><p>Jonathan Daviss</p></div>
+  </div>
+  <button class="agregar" onclick="agregarLista('Outer Banks')">+ Agregar a mi lista</button>
+</div>
+
+<!-- Pantalla Mi Lista -->
+<div id="listaPantalla" class="pantalla">
+  <button onclick="volverHome()">← Volver</button>
+  <h2>Mi Lista</h2>
+  <ul id="lista"></ul>
+</div>
+
+<script>
+let miLista = [];
+
+function actualizarLista() {
+    let ul = document.getElementById("lista");
+    ul.innerHTML = "";
+    for(let i = 0; i < miLista.length; i++){
+        let li = document.createElement("li");
+        li.textContent = miLista[i] + " ";
+
+        let botonQuitar = document.createElement("button");
+        botonQuitar.textContent = "-";
+
+        botonQuitar.onclick = function(){
+            miLista.splice(i, 1);
+            actualizarLista();
+        }
+
+        li.appendChild(botonQuitar);
+        ul.appendChild(li);
+    }
+}
+
+function agregarLista(nombre){
+    if(!miLista.includes(nombre)){
+        miLista.push(nombre);
+        actualizarLista();
+        alert(nombre + " agregado a tu lista");
+    } else {
+        alert(nombre + " ya está en tu lista");
+    }
+}
+
+function mostrar(id) {
+    let pantallas = document.getElementsByClassName('pantalla');
+    for (let i = 0; i < pantallas.length; i++) {
+        pantallas[i].style.display = 'none';
+    }
+    document.getElementById(id).style.display = 'block';
+}
+
+function volverHome() {
+    mostrar('home');
+}
+
+function mostrarLista() {
+    mostrar('listaPantalla');
+}
+
+// Función para el buscador
+function filtrarCards() {
+    let input = document.getElementById('buscador').value.toLowerCase();
+    let cards = document.querySelectorAll('#home .card');
+
+    cards.forEach(function(card){
+        let titulo = card.querySelector('h3').textContent.toLowerCase();
+        if(titulo.includes(input)){
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+</script>
+
+</body>
+</html>
+
